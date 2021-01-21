@@ -4,6 +4,7 @@ phases:
   pre_build:
     commands:
       - echo Logging into Amazon ECR..
+      - pip install --upgrade awscli  
       - aws --version
       - AWS_DEFAULT_REGION=us-east-1
       - AWS_ACCOUNT=192259153015
