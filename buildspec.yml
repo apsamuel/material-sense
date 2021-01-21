@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging into Amazon ECR..
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - REPOSITORY_URI=192259153015.dkr.ecr.us-east-1.amazonaws.com/darkphoton
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo building material-sense on `date`
+      - echo building docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URL:${IMAGE_TAG}
+  post_build:
+    commands:
+      - echo building material-sense complete on `date`
+      - echo pushing docker image...
+      - docker push $REPOSITORY_URL:latest
+      - docker push $REPOSITORY_URL:${IMAGE_TAG}
