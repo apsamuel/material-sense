@@ -20,13 +20,13 @@ phases:
     commands:
       - echo building material-sense on `date`
       - echo building docker image...
-      - echo docker build -t $REPOSITORY_URI:latest .
-      - echo docker tag $REPOSITORY_URI:latest $REPOSITORY_URL:${IMAGE_TAG}
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URL:${IMAGE_TAG}
+      - echo docker build -t ${REPOSITORY_URI}:latest .
+      - echo docker tag ${REPOSITORY_URI}:latest ${REPOSITORY_URI}:${IMAGE_TAG}
+      - docker build -t ${REPOSITORY_URI}:latest .
+      - docker tag ${REPOSITORY_URI}:latest ${REPOSITORY_URI}:${IMAGE_TAG}
   post_build:
     commands:
       - echo building material-sense complete on `date`
       - echo pushing docker image...
-      - docker push $REPOSITORY_URL:latest
-      - docker push $REPOSITORY_URL:${IMAGE_TAG}
+      - docker push ${REPOSITORY_URI}:latest
+      - docker push ${REPOSITORY_URI}:${IMAGE_TAG}
