@@ -11,7 +11,8 @@ RUN yarn build
 
 # stage: 2 — the production environment
 FROM nginx:alpine
-COPY --from=react-build /app/build /usr/share/nginx/html
+RUN mkdir -p /usr/share/nginx/html/material-sense
+COPY --from=react-build /app/build /usr/share/nginx/html/material-sense
 COPY default.conf /etc/nginx/conf.d/default.conf
 RUN rm -f /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
 
